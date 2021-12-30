@@ -10,7 +10,7 @@ def clientOnClick(i):
     os.popen('wmctrl -a "' + eveClients[i] + '"')
 
 # Find the eve clients windows
-eveClients = os.popen('wmctrl -l | grep -wv "- Brave\|- Mozilla Firefox"  "EVE - "').read().splitlines()
+eveClients = os.popen('wmctrl -l | grep "EVE - "').read().splitlines()
 
 # Extract the required informations
 for i in range(len(eveClients)):
@@ -21,6 +21,7 @@ root = Tk()
 root.title("Eve Clients Manager")
 root.resizable(False, False)
 root.attributes('-topmost', True)
+root.lift()
 
 # Main Frame
 frm = ttk.Frame(root)
