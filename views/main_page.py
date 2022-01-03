@@ -7,8 +7,18 @@ from models.exec_commands import ExecCommands
 from tkinter import *
 from tkinter import ttk
 
+from views.blacklist_page import BlacklistPage
 
-class MainPage:
+
+class Singleton(type):
+    _instances = {}
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)
+        return cls._instances[cls]
+
+
+class MainPage(metaclass=Singleton):
     """
     Main Page of the Application
     """
@@ -27,8 +37,9 @@ class MainPage:
         
         # Intanciation of the required objects
         MainPage.settings = JsonManipulation('config.json').read_json()
+        MainPage.blacklistPage = BlacklistPage()
     
-        # Build the apge
+        # Build the page
         MainPage.app = Tk()
         MainPage.app.title("Eve Clients Manager")
         MainPage.app.tk.call('wm', 'iconphoto', MainPage.app._w, PhotoImage(file='resources/logo.png'))
@@ -41,8 +52,7 @@ class MainPage:
         menubar = Menu(MainPage.app)
         clientMenu = Menu(menubar)
         clientMenu.add_command(label="Reload", command=lambda : MainPage.reload_on_click())
-        clientMenu.add_command(label="White list", command=lambda : print("white list"))
-        clientMenu.add_command(label="Black list", command=lambda : print("black list"))
+        clientMenu.add_command(label="Black list", command=lambda : MainPage.blacklistPage.build())
         menubar.add_cascade(label="Clients", menu=clientMenu)
         MainPage.app.config(menu=menubar)
 
@@ -96,7 +106,3 @@ class MainPage:
             child.destroy()
         # Reload the buttons
         MainPage.build_clients_buttons()
-
-
-
-    

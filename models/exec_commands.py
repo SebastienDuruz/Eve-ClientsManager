@@ -13,12 +13,11 @@ class ExecCommands:
         Get the opened Eve Clients
         """
         
-        clients = {}
-        windows = os.popen('wmctrl -l | grep "EVE - "').read().splitlines()
+        clients = os.popen('wmctrl -l | grep "EVE - "').read().splitlines()
         
         # Extract the required informations
-        for i in range(len(windows)):
-            clients += windows[i][windows[i].find('EVE'):]
+        for i in range(len(clients)):
+            clients[i] = clients[i][clients[i].find('EVE'):]
             
         return clients
     
