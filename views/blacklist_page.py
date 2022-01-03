@@ -44,14 +44,17 @@ class BlacklistPage:
 
             BlacklistPage.active = True
             
+            BlacklistPage.app.protocol('WM_DELETE_WINDOW', BlacklistPage.on_close)
+            
             # Enter loop        
             BlacklistPage.frm.mainloop() 
         
-    def close():
+    def on_close():
         """
-        Close the window if signal send
+        Change the state of the active before closing the page
         """
         
+        BlacklistPage.active = False
         BlacklistPage.app.destroy()
     
     

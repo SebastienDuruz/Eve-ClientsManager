@@ -10,15 +10,7 @@ from tkinter import ttk
 from views.blacklist_page import BlacklistPage
 
 
-class Singleton(type):
-    _instances = {}
-    def __call__(cls, *args, **kwargs):
-        if cls not in cls._instances:
-            cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)
-        return cls._instances[cls]
-
-
-class MainPage(metaclass=Singleton):
+class MainPage:
     """
     Main Page of the Application
     """
@@ -45,6 +37,7 @@ class MainPage(metaclass=Singleton):
         MainPage.app.tk.call('wm', 'iconphoto', MainPage.app._w, PhotoImage(file='resources/logo.png'))
         MainPage.app.resizable(False, False)
         MainPage.app.attributes('-topmost', True)
+        MainPage.app.protocol('WM_DELETE_WINDOW', MainPage.on_close)
         MainPage.frm = ttk.Frame(MainPage.app)
         MainPage.frm.grid()
 
@@ -106,3 +99,13 @@ class MainPage(metaclass=Singleton):
             child.destroy()
         # Reload the buttons
         MainPage.build_clients_buttons()
+        
+    def on_close():
+        """
+        Clean the others windows on close of the main page
+        """
+        
+        if BlacklistPage.active:
+            BlacklistPage.app.destroy()
+        
+        MainPage.app.destroy()
