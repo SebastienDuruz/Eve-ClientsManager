@@ -1,0 +1,9 @@
+{
+    "card": {
+        "width": 15,
+        "padding": 50
+    },
+    "row": {
+        "max" : 3
+    }
+}
