@@ -8,6 +8,7 @@ class ExecCommands:
     Class ExecCommands : Execute Linux commands
     """   
     
+    @staticmethod
     def get_clients():
         """
         Get the opened Eve Clients

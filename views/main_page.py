@@ -1,14 +1,12 @@
 # Autor : Sébastien Duruz
 # Date : 30.12.2021
 
-import os
 from models.json_manipulation import JsonManipulation
+from models.text_manipulation import TextManipulation
 from models.exec_commands import ExecCommands
 from tkinter import *
 from tkinter import ttk
-
 from views.blacklist_page import BlacklistPage
-
 
 class MainPage:
     """
@@ -69,24 +67,32 @@ class MainPage:
     
         currentCol = 0
         currentRow = 0
+        clientsNb = 0
         
         # Get the clients
         eveClients = ExecCommands.get_clients()
+        blacklistClients = TextManipulation('blacklist.txt').read_text()
         
         # Build the actions buttons (one foreach opened client)
         for i in range(len(eveClients)):
-        
-            # Build the command and the button
-            ttk.Button(MainPage.frm, text=eveClients[i], padding=MainPage.settings['card']['padding'], width=MainPage.settings['card']['width'], command=lambda i=i: MainPage.client_on_click(eveClients[i])).grid(column=currentCol, row=currentRow)
-        
-            # Make the required agencements determined by the current max clients per row
-            currentCol += 1
-            if currentCol > MainPage.settings['row']['max']:
-                currentCol = 0
-                currentRow += 1
+            # Check if the clients is currently on blacklist
+            if any(eveClients[i] in str for str in blacklistClients):
+                pass
+            else:
+                # Build the command and the button
+                ttk.Button(MainPage.frm, text=eveClients[i], padding=MainPage.settings['card']['padding'], width=MainPage.settings['card']['width'], command=lambda i=i: MainPage.client_on_click(eveClients[i])).grid(column=currentCol, row=currentRow)
+            
+                # Make the required agencements determined by the current max clients per row
+                currentCol += 1
+                if currentCol > MainPage.settings['row']['max']:
+                    currentCol = 0
+                    currentRow += 1
+                
+                # A button as been built
+                clientsNb += 1
         
         # No clients founded
-        if len(eveClients) < 1:
+        if clientsNb < 1:
             ttk.Label(MainPage.frm, text="No Eve clients detected, please try again.", padding=MainPage.settings['card']['padding']).grid(column=currentCol, row=currentRow)
 
     def reload_on_click():
