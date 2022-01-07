@@ -1,11 +1,10 @@
 # Autor : Sébastien Duruz
 # Date : 30.12.2021
 
-import os
 from models.exec_commands import ExecCommands
 from models.text_manipulation import TextManipulation
-from tkinter import *
-from tkinter import ttk
+import os
+import tkinter as tk
 
 class BlacklistPage:
     """
@@ -15,6 +14,8 @@ class BlacklistPage:
     title = "Eve Clients Manager - Blacklist"
     
     active = False
+    
+    blacklistRelativeFilePath = '/../blacklist.txt'
     
     @staticmethod
     def __init__():
@@ -36,16 +37,16 @@ class BlacklistPage:
             BlacklistPage.active = True
         
             # Build the page
-            BlacklistPage.app = Tk()
+            BlacklistPage.app = tk.Tk()
             BlacklistPage.app.title(BlacklistPage.title)
             BlacklistPage.app.resizable(False, False)
             BlacklistPage.app.attributes('-topmost', True)
             BlacklistPage.app.protocol('WM_DELETE_WINDOW', BlacklistPage.on_close)
-            BlacklistPage.frm = Frame(BlacklistPage.app)
+            BlacklistPage.frm = tk.Frame(BlacklistPage.app)
             BlacklistPage.frm.grid()
-            ttk.Label(BlacklistPage.frm, text="Whitelist", padding=10).grid(column=0, row=0)
-            ttk.Label(BlacklistPage.frm, text="Blacklist", padding=10).grid(column=2, row=0)
-            ttk.Button(BlacklistPage.frm, text="Add / Remove", padding=10, command=BlacklistPage.add_remove_blacklist_item).grid(column=1, row=1)
+            tk.Label(BlacklistPage.frm, text="Whitelist").grid(column=0, row=0)
+            tk.Label(BlacklistPage.frm, text="Blacklist").grid(column=2, row=0)
+            tk.Button(BlacklistPage.frm, text="Add / Remove", command=BlacklistPage.add_remove_blacklist_item).grid(column=1, row=1)
             BlacklistPage.build_lists()
                 
             # Enter loop        
@@ -58,12 +59,12 @@ class BlacklistPage:
         
         # Get the clients
         BlacklistPage.eveClients = ExecCommands().get_clients()
-        BlacklistPage.blacklistClients = TextManipulation('blacklist.txt').read_text()
+        BlacklistPage.blacklistClients = TextManipulation(BlacklistPage.blacklistRelativeFilePath).read_text()
         
         # Build the list boxes
-        BlacklistPage.clientsList = Listbox(BlacklistPage.frm, width=50, height=10)
+        BlacklistPage.clientsList = tk.Listbox(BlacklistPage.frm, width=50, height=10)
         BlacklistPage.clientsList.grid(column=0, row=1)
-        BlacklistPage.blacklist = Listbox(BlacklistPage.frm, width=50, height=10)
+        BlacklistPage.blacklist = tk.Listbox(BlacklistPage.frm, width=50, height=10)
         BlacklistPage.blacklist.grid(column=2, row=1)
         
         # Populate the lists
@@ -71,9 +72,9 @@ class BlacklistPage:
             if any(x in str for str in BlacklistPage.blacklistClients):
                 pass
             else:
-                BlacklistPage.clientsList.insert(END, x)
+                BlacklistPage.clientsList.insert(tk.END, x)
         for x in BlacklistPage.blacklistClients:
-            BlacklistPage.blacklist.insert(END, x)
+            BlacklistPage.blacklist.insert(tk.END, x)
             
     def add_remove_blacklist_item():
         """
@@ -81,10 +82,10 @@ class BlacklistPage:
         """
         
         for i in BlacklistPage.clientsList.curselection():
-                TextManipulation('blacklist.txt').add_line(BlacklistPage.clientsList.get(i))
+                TextManipulation(BlacklistPage.blacklistRelativeFilePath).add_line(BlacklistPage.clientsList.get(i))
                 
         for i in BlacklistPage.blacklist.curselection():
-                TextManipulation('blacklist.txt').delete_line(BlacklistPage.blacklist.get(i)) 
+                TextManipulation(BlacklistPage.blacklistRelativeFilePath).delete_line(BlacklistPage.blacklist.get(i)) 
         
         BlacklistPage.build_lists()
                 

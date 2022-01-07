@@ -1,6 +1,7 @@
 # Autor : Sébastien Duruz
 # Date : 03.01.2022
 
+import os
 import json
 
 class JsonManipulation:
@@ -20,5 +21,5 @@ class JsonManipulation:
         Read the content of the config file
         """
         
-        with open(self.filePath, "r") as jsonContent:
+        with open((os.path.dirname(os.path.abspath(__file__))) + self.filePath, "r") as jsonContent:
             return json.load(jsonContent)    

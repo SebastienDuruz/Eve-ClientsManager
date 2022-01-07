@@ -3,6 +3,7 @@
 
 from pathlib import Path
 from typing import Text
+import os
 
 
 class TextManipulation:
@@ -17,7 +18,7 @@ class TextManipulation:
         Class Constructor
         """
         
-        self.filePath = filePath
+        self.filePath = os.path.dirname(os.path.abspath(__file__)) + filePath
         
     def read_text(self):
         """
@@ -25,7 +26,7 @@ class TextManipulation:
         """
         
         fileContent = []
-        file = open('blacklist.txt', 'r')
+        file = open(self.filePath, 'r')
         for l in file:
             fileContent.append(l.rstrip())
         file.close()

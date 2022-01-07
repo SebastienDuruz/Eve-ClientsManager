@@ -4,14 +4,18 @@
 from models.json_manipulation import JsonManipulation
 from models.text_manipulation import TextManipulation
 from models.exec_commands import ExecCommands
-from tkinter import *
-from tkinter import ttk
 from views.blacklist_page import BlacklistPage
+import tkinter as tk
+import os
 
 class MainPage:
     """
     Main Page of the Application
     """
+    
+    blacklistRelativeFilePath = '/../blacklist.txt'
+    configRelativeFilePath = '/../config.json'
+    logoRelativeFilePath = '/../resources/logo.png'
     
     def __init__(self):
         """
@@ -27,23 +31,23 @@ class MainPage:
         """
         
         # Intanciation of the required objects
-        MainPage.settings = JsonManipulation('config.json').read_json()
+        MainPage.settings = JsonManipulation(MainPage.configRelativeFilePath).read_json()
         MainPage.blacklistPage = BlacklistPage()
     
         # Build the page
-        MainPage.app = Tk()
+        MainPage.app = tk.Tk()
         MainPage.app.title("Eve Clients Manager")
-        MainPage.app.tk.call('wm', 'iconphoto', MainPage.app._w, PhotoImage(file='resources/logo.png'))
+        MainPage.app.tk.call('wm', 'iconphoto', MainPage.app._w, tk.PhotoImage(file=os.path.dirname(os.path.abspath(__file__)) + MainPage.logoRelativeFilePath))
         MainPage.app.resizable(False, False)
         MainPage.app.configure(background="black")
         MainPage.app.attributes('-topmost', True)
         MainPage.app.protocol('WM_DELETE_WINDOW', MainPage.on_close)
-        MainPage.frm = ttk.Frame(MainPage.app)
+        MainPage.frm = tk.Frame(MainPage.app)
         MainPage.frm.grid()
 
         # Build the menu
-        menubar = Menu(MainPage.app)
-        clientMenu = Menu(menubar)
+        menubar = tk.Menu(MainPage.app)
+        clientMenu = tk.Menu(menubar)
         clientMenu.add_command(label="Reload", command=lambda : MainPage.reload_on_click())
         clientMenu.add_command(label="Black list", command=lambda : MainPage.blacklistPage.build())
         menubar.add_cascade(label="Clients", menu=clientMenu)
@@ -73,7 +77,7 @@ class MainPage:
         
         # Get the clients
         eveClients = ExecCommands.get_clients()
-        blacklistClients = TextManipulation('blacklist.txt').read_text()
+        blacklistClients = TextManipulation(MainPage.blacklistRelativeFilePath).read_text()
         
         # Build the actions buttons (one foreach opened client)
         for i in range(len(eveClients)):
@@ -82,7 +86,7 @@ class MainPage:
                 pass
             else:
                 # Build the command and the button
-                ttk.Button(MainPage.frm, text=eveClients[i], padding=MainPage.settings['card']['padding'], width=MainPage.settings['card']['width'], command=lambda i=i: MainPage.client_on_click(eveClients[i])).grid(column=currentCol, row=currentRow)
+                tk.Button(MainPage.frm, text=eveClients[i], width=MainPage.settings['card']['width'], height=MainPage.settings['card']['height'], command=lambda i=i: MainPage.client_on_click(eveClients[i])).grid(column=currentCol, row=currentRow)
             
                 # Make the required agencements determined by the current max clients per row
                 currentCol += 1
@@ -95,7 +99,7 @@ class MainPage:
         
         # No clients founded
         if clientsNb < 1:
-            ttk.Label(MainPage.frm, text="No Eve clients detected, please try again.", padding=MainPage.settings['card']['padding']).grid(column=currentCol, row=currentRow)
+            tk.Label(MainPage.frm, text="No Eve clients detected, please try again.").grid(column=currentCol, row=currentRow)
 
     def reload_on_click():
         """

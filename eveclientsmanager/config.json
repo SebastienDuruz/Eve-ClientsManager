@@ -1,7 +1,7 @@
 {
     "card": {
-        "width": 25,
-        "padding": 50
+        "width": 35,
+        "height": 5
     },
     "row": {
         "max" : 3
