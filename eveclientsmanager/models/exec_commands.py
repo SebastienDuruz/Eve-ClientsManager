@@ -15,13 +15,15 @@ class ExecCommands:
         """
         
         clients = os.popen('wmctrl -l | grep "EVE - "').read().splitlines()
+        eveClients = []
         
         # Extract the required informations
         for i in range(len(clients)):
-            clients[i] = clients[i][clients[i].find('EVE'):]
+            eveClients.append(clients[i][clients[i].find('EVE'):])
             
-        return clients
+        return eveClients
     
+    @staticmethod
     def switch_focus(window):
         """
         Switch the focused windows

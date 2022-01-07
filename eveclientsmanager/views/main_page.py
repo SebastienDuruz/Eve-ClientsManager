@@ -19,7 +19,8 @@ class MainPage:
         """
         
         MainPage.build()
-        
+    
+    @staticmethod
     def build():
         """
         Build the page layout
@@ -34,6 +35,7 @@ class MainPage:
         MainPage.app.title("Eve Clients Manager")
         MainPage.app.tk.call('wm', 'iconphoto', MainPage.app._w, PhotoImage(file='resources/logo.png'))
         MainPage.app.resizable(False, False)
+        MainPage.app.configure(background="black")
         MainPage.app.attributes('-topmost', True)
         MainPage.app.protocol('WM_DELETE_WINDOW', MainPage.on_close)
         MainPage.frm = ttk.Frame(MainPage.app)
