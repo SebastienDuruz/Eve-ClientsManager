@@ -1,2 +1,4 @@
 # Eve-ClientsManager
-An application built with Python that let you manage and preview the windows of the differents Eve Online clients currently open.
+A simple application build with Python that let me manage the differents **Eve Online** clients opened in a Linux environnement.
+## Usage
+python eveclientsmanager/eveclientsmanager.py
