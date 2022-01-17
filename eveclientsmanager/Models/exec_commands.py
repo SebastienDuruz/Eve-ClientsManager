@@ -1,7 +1,8 @@
-# Autor : Sébastien Duruz
+# Author : Sébastien Duruz
 # Date : 03.01.2022
 
 import os
+
 
 class ExecCommands:
     """
@@ -15,13 +16,13 @@ class ExecCommands:
         """
         
         clients = os.popen('wmctrl -l | grep "EVE - "').read().splitlines()
-        eveClients = []
+        eve_clients = []
         
-        # Extract the required informations
+        # Extract the required information
         for i in range(len(clients)):
-            eveClients.append(clients[i][clients[i].find('EVE'):])
+            eve_clients.append(clients[i][clients[i].find('EVE'):])
             
-        return eveClients
+        return eve_clients
     
     @staticmethod
     def switch_focus(window):

@@ -1,20 +1,21 @@
-# Autor : Sébastien Duruz
+# Author : Sébastien Duruz
 # Date : 03.01.2022
 
 import os
 import json
+
 
 class JsonManipulation:
     """
     Class JsonManipulation : Access, read, write to JSON file
     """
     
-    def __init__(self, filePath):
+    def __init__(self, file_path):
         """
         Class Constructor
         """
         
-        self.filePath = filePath
+        self.filePath = file_path
         
     def read_json(self):
         """
@@ -22,4 +23,4 @@ class JsonManipulation:
         """
         
         with open((os.path.dirname(os.path.abspath(__file__))) + self.filePath, "r") as jsonContent:
-            return json.load(jsonContent)    
+            return json.load(jsonContent)

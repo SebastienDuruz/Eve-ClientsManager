@@ -1,8 +1,6 @@
-# Autor : Sébastien Duruz
+# Author : Sébastien Duruz
 # Date : 04.01.2022
 
-from pathlib import Path
-from typing import Text
 import os
 
 
@@ -11,49 +9,47 @@ class TextManipulation:
     Class TextManipulation : Access, read, write to TEXT file
     """
     
-    from pathlib import Path
-    
-    def __init__(self, filePath):
+    def __init__(self, file_path):
         """
         Class Constructor
         """
         
-        self.filePath = os.path.dirname(os.path.abspath(__file__)) + filePath
+        self.filePath = os.path.dirname(os.path.abspath(__file__)) + file_path
         
     def read_text(self):
         """
         Read the content of the config file
         """
         
-        fileContent = []
+        file_content = []
         file = open(self.filePath, 'r')
-        for l in file:
-            fileContent.append(l.rstrip())
+        for line in file:
+            file_content.append(line.rstrip())
         file.close()
-        return fileContent
+        return file_content
     
-    def delete_line(self, toRemove):
+    def delete_line(self, to_remove):
         """
         Delete a specific line from a text file
         """
         
         with open(self.filePath, "r+") as f:
-            fileContent = f.readlines()
+            file_content = f.readlines()
             f.seek(0)
-            for i in fileContent:
-                if i.__contains__(toRemove) == False:
+            for i in file_content:
+                if not i.__contains__(to_remove):
                     f.write(i)
             f.truncate()
             
-    def add_line(self, toAdd):
+    def add_line(self, to_add):
         """
         Add a specific line to text file if not already exists
         """
         
         with open(self.filePath, "r+") as f:
             for line in f:
-                if toAdd in line:
+                if to_add in line:
                     return False
             else:
-                f.write(toAdd + '\n')
+                f.write(to_add + '\n')
                 return True
