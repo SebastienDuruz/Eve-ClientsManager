@@ -1,6 +1,17 @@
-# Autor : Sébastien Duruz
+# Author : Sébastien Duruz
 # Date : 30.12.2021
 
-import views.main_page as mainPage
+import Views.main_page as main_page
 
-mainPage.MainPage()
+
+def main():
+    """
+    Main entry of the program
+    """
+
+    main_page.self()
+
+
+# Execute main function if project called
+if __name__ == '__main__':
+    main()
