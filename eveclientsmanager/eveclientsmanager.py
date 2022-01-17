@@ -9,7 +9,7 @@ def main():
     Main entry of the program
     """
 
-    main_page.self()
+    main_page.MainPage()
 
 
 # Execute main function if project called

@@ -9,7 +9,7 @@ import tkinter as tk
 import os
 
 
-class self:
+class MainPage:
     """
     Main Page of the Application
     """
@@ -90,7 +90,7 @@ class self:
                 # Build the command and the button
                 tk.Button(self.frm, text=eve_clients[i], width=self.settings['card']['width'],
                           height=self.settings['card']['height'],
-                          command=lambda j=i: self.client_on_click(eve_clients[i])).grid(
+                          command=lambda i=i: self.client_on_click(eve_clients[i])).grid(
                     column=current_col, row=current_row)
             
                 # Make the required agencements determined by the current max clients per row
