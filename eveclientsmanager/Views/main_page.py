@@ -5,6 +5,8 @@ from Models.json_manipulation import JsonManipulation
 from Models.text_manipulation import TextManipulation
 from Models.exec_commands import ExecCommands
 from Views.blacklist_page import BlacklistPage
+import time
+import threading
 import tkinter as tk
 import os
 
@@ -25,9 +27,10 @@ class MainPage:
 
         self.app = None
         self.frm = None
+        self.auto_reload_thread = None
         self.settings = JsonManipulation(self.config_relative_file_path).read_json()
         self.blacklistPage = BlacklistPage()
-        
+
         self.build()
     
     def build(self):
@@ -57,6 +60,10 @@ class MainPage:
 
         # Get the clients
         self.build_clients_buttons()
+
+        self.auto_reload_thread = threading.Thread(target=self.auto_reload)
+        self.auto_reload_thread.daemon = True
+        self.auto_reload_thread.start()
         
         # Enter loop        
         self.frm.mainloop()
@@ -117,7 +124,22 @@ class MainPage:
             child.destroy()
         # Reload the buttons
         self.build_clients_buttons()
-        
+
+    def auto_reload(self):
+        """
+        Auto reload the client list each X seconds
+        """
+
+        while True:
+            # Destroy every item before reload
+            for child in self.frm.winfo_children():
+                child.destroy()
+            # Reload the buttons
+            self.build_clients_buttons()
+
+            # Sleep for desired sec
+            time.sleep(10)
+
     def on_close(self):
         """
         Clean the others windows on close of the main page
