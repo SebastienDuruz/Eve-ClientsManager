@@ -1,7 +1,7 @@
 {
     "card": {
-        "width": 35,
-        "height": 5
+        "width": 40,
+        "height": 7
     },
     "row": {
         "max" : 3
