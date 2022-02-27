@@ -1,4 +1,6 @@
 # Eve-ClientsManager
-A simple application build with Python that let me manage the differents **Eve Online** clients opened in a Linux environnement.
+A simple application build with Python that let me manage the differents **Eve Online** clients opened in a Linux environment.
 ## Usage
-python eveclientsmanager/eveclientsmanager.py
+<code>
+  python eveclientsmanager/eveclientsmanager.py
+</code>
