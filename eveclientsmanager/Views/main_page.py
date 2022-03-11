@@ -30,6 +30,7 @@ class MainPage:
         self.auto_reload_thread = None
         self.settings = JsonManipulation(self.config_relative_file_path).read_json()
         self.blacklistPage = BlacklistPage()
+        self.openedClients = list()
 
         self.build()
     
@@ -83,7 +84,9 @@ class MainPage:
         current_col = 0
         current_row = 0
         clients_nb = 0
-        
+
+        self.openedClients = list()
+
         # Get the clients
         eve_clients = ExecCommands.get_clients()
         blacklist_clients = TextManipulation(self.blacklist_relative_file_path).read_text()
@@ -108,6 +111,9 @@ class MainPage:
                 
                 # A button as been built
                 clients_nb += 1
+
+                # Add client to openedClientsList (don't recreate buttons if it's not necessary)
+                self.openedClients.append(eve_clients[i])
         
         # No clients founded
         if clients_nb < 1:
@@ -131,14 +137,43 @@ class MainPage:
         """
 
         while True:
-            # Destroy every item before reload
-            for child in self.frm.winfo_children():
-                child.destroy()
-            # Reload the buttons
-            self.build_clients_buttons()
+            # Only if a change as been detected
+            if self.clients_list_changes():
+                # Destroy every item before reload
+                for child in self.frm.winfo_children():
+                    child.destroy()
+                # Reload the buttons
+                self.build_clients_buttons()
 
             # Sleep for desired sec
             time.sleep(10)
+
+    def clients_list_changes(self):
+        """
+        Check if any change as been made to clients list
+        True -> Changes , False -> no changes
+        """
+
+        # Get the clients
+        eve_clients = ExecCommands.get_clients()
+        blacklist_clients = TextManipulation(self.blacklist_relative_file_path).read_text()
+
+        # Check if client is on blacklist, if true remove it from list
+        for i in range(len(eve_clients)):
+            # Check if the clients is currently on blacklist
+            if any(eve_clients[i] in str for str in blacklist_clients):
+                continue
+            # Check if the client is currently on the Clients Buttons
+            if not any(eve_clients[i] in str for str in self.openedClients):
+                return True
+
+        # Every client checked, if same number of elements, no changes !
+        if len(eve_clients) == len(self.openedClients):
+            return False
+
+        # At least one change as been made
+        return True
+
 
     def on_close(self):
         """
