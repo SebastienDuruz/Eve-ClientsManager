@@ -10,7 +10,7 @@ ArchLinux ==>
 <code>pacman -S tk wmctrl</code>
 
 Ubuntu ==>
-<code>apt install tk wmctrl</code>
+<code>apt install python-tk wmctrl</code>
 
 ## Usage
 <code>python eveclientsmanager/eveclientsmanager.py</code>
