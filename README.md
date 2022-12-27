@@ -5,17 +5,17 @@ A simple application build with Python that let me manage the differents **Eve O
 
 Fedora ==>
 <code>
-  dnf install wmctrl  
+  dnf install tk wmctrl  
 </code>
 
 ArchLinux ==>
 <code>
-  pacman -S wmctrl  
+  pacman -S tk wmctrl  
 </code>
 
 Ubuntu ==>
 <code>
-  apt install wmctrl
+  apt install tk wmctrl
 </code>
 
 ## Usage
